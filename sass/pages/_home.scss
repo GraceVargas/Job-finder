@@ -1,0 +1,18 @@
+#filter-container {
+    height: 150px;
+}
+
+#filter-form {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+
+    .selectFilter {
+        width: 170px;
+        padding: 3px;
+    }
+
+    // button {
+    //       align-items: end;
+    // }
+}

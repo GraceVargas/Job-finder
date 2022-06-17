@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  padding: 0;
+  padding-top: 50px;
+}
+
+*, *::before, * ::after {
+  box-sizing: border-box;
+}
+
+#header {
+  background-color: rgba(51, 51, 255, 0.897);
+  height: 50px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.default-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+}
+.default-list li {
+  padding: 15px;
+}
+.default-list li a {
+  color: rgba(255, 255, 255, 0.87);
+  text-decoration: none;
+  font-size: 17px;
+}
+
+#filter-container {
+  height: 150px;
+}
+
+#filter-form {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+}
+#filter-form .selectFilter {
+  width: 170px;
+  padding: 3px;
+}
+
+/*# sourceMappingURL=main.css.map */
