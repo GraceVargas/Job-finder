@@ -1,18 +1,32 @@
 #filter-container {
     height: 150px;
+    display: flex;
+    justify-content: center;
 }
 
 #filter-form {
     display: flex;
-    flex-direction: row-reverse;
-    justify-content: center;
+    align-items: center;
+
 
     .selectFilter {
         width: 170px;
-        padding: 3px;
+        padding: 4px;
+        margin: 10px;
     }
 
-    // button {
-    //       align-items: end;
-    // }
+    button {
+        margin: 5px;
+        padding: 4px;
+        border: solid 1px $primary-color;
+        border-radius: 5px;
+        background-color: $primary-color-text;
+        color: $primary-color;
+        order: 2;
+
+        &:first-of-type {
+            background-color: $primary-color;
+            color: $primary-color-text;
+        }
+    }
 }
