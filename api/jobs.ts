@@ -15,4 +15,17 @@ const getJobs = async () => {
     return data;    
   }
 
+  const loadData = (div) =>{
+    const box = document.createElement('div');
+    box.classList.add("spinner-grow","text-dark");
+    box.setAttribute('role', "status");
+    const span = document.createElement('span');
+    span.appendChild(document.createTextNode("Loading..."));
+    span.classList.add("visually-hidden");
+
+    box.appendChild(span);
+    div.appendChild(box);
+
+}
+
   
