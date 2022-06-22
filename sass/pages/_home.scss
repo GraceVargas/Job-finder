@@ -1,5 +1,9 @@
+/* 
+*  Filters 
+*/
+
 #filter-container {
-    height: 150px;
+    min-height: 150px;
     display: flex;
     justify-content: center;
 }
@@ -15,18 +19,50 @@
         margin: 10px;
     }
 
-    button {
-        margin: 5px;
-        padding: 4px;
-        border: solid 1px $primary-color;
-        border-radius: 5px;
-        background-color: $primary-color-text;
-        color: $primary-color;
+    .filter-btn-wrapper { 
+        display: flex;
+        flex-wrap: nowrap;
         order: 2;
-
-        &:first-of-type {
-            background-color: $primary-color;
-            color: $primary-color-text;
-        }
     }
+}
+
+
+
+/* 
+*  Cards 
+*/
+
+.cardContent {
+    position: relative;
+    height: 280px;
+    border: solid 1px rgb(201, 197, 197);
+    border-radius: 5px;
+    
+    button {
+        position: absolute;
+        bottom: 7px;
+    }
+
+}
+
+.card-job-span {
+    background-color: rgba(45, 45, 231, 0.842);
+    color: rgb(39, 39, 39);
+    border-radius: 2px;
+    margin: 1px;
+    padding: 2px;
+    font-size: 13px;
+}
+
+/* 
+*  Responsive 
+*/
+
+@media(max-width: 768px) {
+
+    .filter-form {
+        flex-direction: column;
+        justify-content: start;
+    }
+
 }
