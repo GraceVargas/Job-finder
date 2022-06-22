@@ -13,21 +13,22 @@ const createForm= (titleLabel,inputType,id,placeHolder) =>{
     labelControl.classList.add("text-dark");
     boxForm.appendChild(labelControl);
     form.appendChild(boxForm);
+
    switch (titleLabel) {
-    case "Description": const textArea = document.createElement('textarea');
-        textArea.setAttribute('placeholder', placeHolder);
-        textArea.setAttribute('id', id);
-        textArea.classList.add("form-control");
-        boxForm.appendChild(textArea);
+        case "Description": const textArea = document.createElement('textarea');
+            textArea.setAttribute('placeholder', placeHolder);
+            textArea.setAttribute('id', id);
+            textArea.classList.add("form-control");
+            boxForm.appendChild(textArea);
         break;
-   
-    default:
-        const inputControl = document.createElement('input');
-        inputControl.classList.add("form-control");
-        inputControl.setAttribute('type', inputType);
-        inputControl.setAttribute('placeholder', placeHolder);
-        inputControl.setAttribute('id', id);
-        boxForm.appendChild(inputControl);
+    
+        default:
+            const inputControl = document.createElement('input');
+            inputControl.classList.add("form-control");
+            inputControl.setAttribute('type', inputType);
+            inputControl.setAttribute('placeholder', placeHolder);
+            inputControl.setAttribute('id', id);
+            boxForm.appendChild(inputControl);
         break;
    }
 
@@ -47,8 +48,9 @@ createForm("","text","seniority","Seniority");
 
 
 
-form.addEventListener('submit', (e)=>{
+form.addEventListener('submit', async(e)=>{
     e.preventDefault();
+    
 
     const job = {
         name : e.target.jobTitle.value,
@@ -59,7 +61,15 @@ form.addEventListener('submit', (e)=>{
     }
     addJob(job)
 
+
     
-    window.location.href = "./index.html";
+
+    setTimeout(window.location.href = "./index.html", 2000);
+
+    loadData();
+
+ 
+        
+
 
 })
