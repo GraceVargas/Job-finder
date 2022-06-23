@@ -7,6 +7,7 @@ type Job = {
     id: number,
 }
 
+
 /*
 *  Function to create cards 
 */
@@ -78,97 +79,98 @@ const createCards = (jobs) => {
 const filterForm = document.getElementById('filter-form') as HTMLFormElement;
 
 
-const setFilters = async () => {
-    const filtersData = {
-        location: [],
-        seniority: [],
-        category: [],
-    }
+    
 
-    const response = await getJobs();
+const setFilters = (filterName, filters) => {
 
-    response.forEach((job: Job) => {  
-        if (!filtersData.location.includes(job.location)) filtersData.location.push(job.location);                    
-        if (!filtersData.seniority.includes(job.seniority)) filtersData.seniority.push(job.seniority);
-        if (!filtersData.category.includes(job.category)) filtersData.category.push(job.category);
-    })           
+    const select = document.createElement('select');
+    select.classList.add('selectFilter');
+    select.setAttribute('id', `filter${filterName}`);
+    filterForm.appendChild(select);
 
-    for (let filter in filtersData) {
-        const select = document.createElement('select');
-        select.classList.add('selectFilter');
-        select.setAttribute('id', `filter-${filter}`);
-        filterForm.appendChild(select);
+    const optionTitle = document.createElement('option'); 
+    select.appendChild(optionTitle);
+    optionTitle.setAttribute('id', `${filterName}`)
+    optionTitle.setAttribute('value', `${filterName}`)
+    optionTitle.appendChild(document.createTextNode(`${filterName}`))
+    select.appendChild(optionTitle);
 
-        const optionTitle = document.createElement('option'); 
-        select.appendChild(optionTitle);
-        optionTitle.setAttribute('id', filter)
-        optionTitle.setAttribute('value', filter)
-        optionTitle.appendChild(document.createTextNode(filter))
-        select.appendChild(optionTitle);
-    }      
+    filters.forEach(filter => {
+        console.log(filter);
+        
+    // const filterLocation = document.getElementById('filterLocations') as HTMLSelectElement;
+    // const filterSeniority = document.getElementById('filterSeniorities') as HTMLSelectElement;
+    // const filterCategory = document.getElementById('filterCategories') as HTMLSelectElement;
 
-    const filterLocation = document.getElementById('filter-location') as HTMLSelectElement;
-    const filterSeniority = document.getElementById('filter-seniority') as HTMLSelectElement;
-    const filterCategory = document.getElementById('filter-category') as HTMLSelectElement;
-
-    const createOptions = (filter, select) => {
-        filter.forEach((elem => {
+ 
         const option =  document.createElement('option'); 
         select.appendChild(option);
-        option.setAttribute('id', elem)
-        option.setAttribute('value', elem)
-        option.appendChild(document.createTextNode(elem))
+        option.setAttribute('id', filter.name)
+        option.setAttribute('value', filter.name)
+        option.appendChild(document.createTextNode(filter.name))
         select.appendChild(option);
-    }))
-    }
-    createOptions(filtersData.location, filterLocation);
-    createOptions(filtersData.seniority, filterSeniority);
-    createOptions(filtersData.category, filterCategory);
-
-
-    /* Filter Events*/
-
-    const btnSubmit = document.getElementById('btn-submit') as HTMLButtonElement;
-
-    btnSubmit.addEventListener('click', (e) =>{
-        e.preventDefault();
-        let locationSearched;
-        let senioritySearched;
-        let categorySearched;
-
-        if (filterLocation.value != 'location') {locationSearched = filterLocation.value};
-        if (filterSeniority.value != 'seniority') {senioritySearched = filterSeniority.value};
-        if (filterCategory.value != 'category') {categorySearched = filterCategory.value};
-                
-        const loadCards = async () => {
-            let jobs = await getJobs();
-
-            if (locationSearched) {
-                jobs = jobs.filter(job => {
-                    return job.location === locationSearched; 
-                })
-            }
-                
-
-             if (senioritySearched) {
-                jobs = jobs.filter(job => {
-                    return job.seniority === senioritySearched; 
-                })
-             }
-
-             if (categorySearched) {
-                jobs = jobs.filter(job => {
-                    return job.category === categorySearched; 
-                })
-             }
-             
-            createCards(jobs);
-        };
-
-        loadCards();
     
     })
 }
+
+
+
+const loadOptions = async () => {
+
+    const categories = await getCategories();
+    const locations = await getLocations();
+    const seniorities = await getSeniorities();
+
+    setFilters("Categories", categories);
+    setFilters("Locations", locations);
+    setFilters("Seniorities", seniorities);
+}
+
+loadOptions();
+
+    /* Filter Events*/
+
+    // const btnSubmit = document.getElementById('btn-submit') as HTMLButtonElement;
+
+    // btnSubmit.addEventListener('click', (e) =>{
+    //     e.preventDefault();
+    //     let locationSearched;
+    //     let senioritySearched;
+    //     let categorySearched;
+
+    //     if (filterLocation.value != 'location') {locationSearched = filterLocation.value};
+    //     if (filterSeniority.value != 'seniority') {senioritySearched = filterSeniority.value};
+    //     if (filterCategory.value != 'category') {categorySearched = filterCategory.value};
+                
+    //     const loadCards = async () => {
+    //         let jobs = await getJobs();
+
+    //         if (locationSearched) {
+    //             jobs = jobs.filter(job => {
+    //                 return job.location === locationSearched; 
+    //             })
+    //         }
+                
+
+    //          if (senioritySearched) {
+    //             jobs = jobs.filter(job => {
+    //                 return job.seniority === senioritySearched; 
+    //             })
+    //          }
+
+    //          if (categorySearched) {
+    //             jobs = jobs.filter(job => {
+    //                 return job.category === categorySearched; 
+    //             })
+    //          }
+             
+    //         createCards(jobs);
+    //     };
+
+    //     loadCards();
+    
+    // })
+// }
     
 
 
@@ -195,7 +197,7 @@ const setFilters = async () => {
 
 // }
 
-setFilters();
+
 
 
 const loadCards = async () => {
