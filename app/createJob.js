@@ -2,7 +2,7 @@ var main = document.getElementById('main-job');
 var form = document.getElementById('form-job');
 var btnSubmit = document.getElementById("btn-submit");
 main.appendChild(form);
-var createForm = function (titleLabel, inputType, id, placeHolder) {
+var createForm = function (titleLabel, controlType, id, placeHolder) {
     var boxForm = document.createElement('div');
     boxForm.classList.add("container");
     var labelControl = document.createElement('label');
@@ -10,30 +10,21 @@ var createForm = function (titleLabel, inputType, id, placeHolder) {
     labelControl.classList.add("text-dark");
     boxForm.appendChild(labelControl);
     form.appendChild(boxForm);
-    switch (titleLabel) {
-        case "Description":
-            var textArea = document.createElement('textarea');
-            textArea.setAttribute('placeholder', placeHolder);
-            textArea.setAttribute('id', id);
-            textArea.classList.add("form-control");
-            boxForm.appendChild(textArea);
-            break;
-        default:
-            var inputControl = document.createElement('input');
-            inputControl.classList.add("form-control");
-            inputControl.setAttribute('type', inputType);
-            inputControl.setAttribute('placeholder', placeHolder);
-            inputControl.setAttribute('id', id);
-            boxForm.appendChild(inputControl);
-            break;
-    }
+    var controlForm = document.createElement(controlType);
+    controlForm.classList.add("form-control");
+    controlForm.setAttribute('placeholder', placeHolder);
+    controlForm.setAttribute('id', id);
+    boxForm.appendChild(controlForm);
     boxForm.appendChild(btnSubmit);
 };
-createForm("Job title", "text", "jobTitle", "Job title");
-createForm("Description", "", "descriptionJob", "Add a description");
-createForm("Tags", "text", "location", "Location");
-createForm("", "text", "category", "Category");
-createForm("", "text", "seniority", "Seniority");
+createForm("Job title", "input", "jobTitle", "Job title");
+createForm("Description", "textarea", "descriptionJob", "Add a description");
+createForm("Tags", "select", "location");
+createForm("", "select", "category");
+createForm("", "select", "seniority");
+var selectLocation = document.getElementById("location");
+var opLocation = document.createElement('option');
+selectLocation.appendChild(opLocation);
 form.addEventListener('submit', function (e) {
     e.preventDefault();
     var job = {
@@ -44,5 +35,6 @@ form.addEventListener('submit', function (e) {
         seniority: e.target.seniority.value
     };
     addJob(job);
-    window.location.href = "./index.html";
+    setTimeout(window.location.href = "./index.html", 2000);
+    loadData();
 });
