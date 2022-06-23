@@ -11,11 +11,20 @@
 // const main = document.getElementById("main-home") as HTMLElement;
 var loadData = function () {
     var box = document.createElement('div');
-    box.classList.add("spinner-grow", "text-dark");
+    box.classList.add("spinner-grow", "text-dark", "d-flex", "justify-content-center");
     box.setAttribute('role', "status");
     var span = document.createElement('span');
     span.appendChild(document.createTextNode("Loading..."));
     span.classList.add("visually-hidden");
     box.appendChild(span);
     document.body.appendChild(box);
+};
+var createOption = function (select, data, value, key) {
+    data.forEach(function (elem) {
+        var optionControl = document.createElement('option');
+        optionControl.setAttribute('id', elem["id"]);
+        optionControl.setAttribute('value', elem[key]);
+        optionControl.appendChild(document.createTextNode(elem[value]));
+        select.appendChild(optionControl);
+    });
 };

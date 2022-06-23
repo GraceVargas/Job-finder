@@ -27,6 +27,17 @@ const loadData = () =>{
     box.appendChild(span);
     document.body.appendChild(box);
 
+}
 
+const createOption = (select, data, value, key)=>{
 
+    data.forEach((elem)=>{
+    
+        const optionControl = document.createElement('option');
+        optionControl.setAttribute('id', elem["id"])
+        optionControl.setAttribute('value', elem[key])
+        optionControl.appendChild(document.createTextNode(elem[value]))
+        select.appendChild(optionControl);
+    })
+    
 }
