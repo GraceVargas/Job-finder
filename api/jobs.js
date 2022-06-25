@@ -68,13 +68,3 @@ var getJobs = function () { return __awaiter(_this, void 0, void 0, function () 
         }
     });
 }); };
-var loadData = function (div) {
-    var box = document.createElement('div');
-    box.classList.add("spinner-grow", "text-dark");
-    box.setAttribute('role', "status");
-    var span = document.createElement('span');
-    span.appendChild(document.createTextNode("Loading..."));
-    span.classList.add("visually-hidden");
-    box.appendChild(span);
-    div.appendChild(box);
-};

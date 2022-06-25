@@ -16,28 +16,29 @@
 
 // const main = document.getElementById("main-home") as HTMLElement;
 
-const loadData = () =>{
-    const box = document.createElement('div');
-    box.classList.add("spinner-grow","text-dark", "d-flex", "justify-content-center");
-    box.setAttribute('role', "status");
-    const span = document.createElement('span');
-    span.appendChild(document.createTextNode("Loading..."));
-    span.classList.add("visually-hidden");
 
-    box.appendChild(span);
-    document.body.appendChild(box);
+/* Show and Hidden Functions */
 
+const showData = (elem) =>{
+    elem.classList.remove('d-hidden');
 }
+
+const hideData = (elem) => {
+    elem.classList.add('d-hidden');
+}
+
+/* Function to create Options for Select */
 
 const createOption = (select, data, value, key)=>{
 
     data.forEach((elem)=>{
     
         const optionControl = document.createElement('option');
-        optionControl.setAttribute('id', elem["id"])
-        optionControl.setAttribute('value', elem[key])
-        optionControl.appendChild(document.createTextNode(elem[value]))
+        optionControl.setAttribute('id', elem[key]);
+        optionControl.setAttribute('value', elem[value]);
+        optionControl.appendChild(document.createTextNode(elem[value]));
         select.appendChild(optionControl);
     })
     
 }
+

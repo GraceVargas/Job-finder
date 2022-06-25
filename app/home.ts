@@ -1,74 +1,68 @@
-type Job = {
-    name: string,
-    description: string,
-    location: string,
-    category: string,
-    seniority: string,
-    id: number,
-}
 
 /*
 *  Function to create cards 
 */
 
 const containerCards = document.getElementById('cards-container') as HTMLDivElement;
+const spinner = document.getElementById('spinner');
+
 
 const createCards = (jobs) => {
-    const row = document.createElement('div');
+
+    showData(spinner);  
+ 
+    setTimeout(() => {
+
+        const row = document.createElement('div');
         containerCards.innerHTML = "";
         row.classList.add('row', 'g-2');
         containerCards.appendChild(row);
 
-        loadData(containerCards);
+        for (let job of jobs) {
+            const card = document.createElement('div');
+            row.appendChild(card);
+            card.classList.add('card-job', 'col-lg-3', 'col-md-6');
     
-        setTimeout(() => {
-            for (let job of jobs) {
-                const card = document.createElement('div');
-                row.appendChild(card);
-                card.classList.add('card-job', 'col-lg-3', 'col-md-6');
-        
-                const cardContent = document.createElement('div');
-                card.appendChild(cardContent);
-                cardContent.classList.add('p-3', 'cardContent', 'm-2');
-        
-        
-                const title = document.createElement('h4');
-                title.appendChild(document.createTextNode(job.name));
-                cardContent.appendChild(title);
-                title.classList.add('card-job-title');
-        
-                const description = document.createElement('p');
-                description.appendChild(document.createTextNode(job.description));
-                cardContent.appendChild(description);
-                description.classList.add('card-job-description');
-        
-                const location = document.createElement('span');
-                location.appendChild(document.createTextNode(job.location));
-                cardContent.appendChild(location);
-                location.classList.add('card-job-span');
-        
-                const category = document.createElement('span');
-                category.appendChild(document.createTextNode(job.category));
-                cardContent.appendChild(category);
-                category.classList.add('card-job-span');
-        
-                const seniority = document.createElement('span');
-                seniority.appendChild(document.createTextNode(job.seniority));
-                cardContent.appendChild(seniority);
-                seniority.classList.add('card-job-span');
-        
-                const btnDetails = document.createElement('button');
-                btnDetails.appendChild(document.createTextNode('See Details'));
-                cardContent.appendChild(btnDetails);
-                btnDetails.setAttribute('id', 'btnDetails');
-                btnDetails.classList.add('btn', 'btn-primary');  
-                
-            }
-        }, 2000);
-
-        
-    }
-
+            const cardContent = document.createElement('div');
+            card.appendChild(cardContent);
+            cardContent.classList.add('p-3', 'cardContent', 'm-2');
+    
+    
+            const title = document.createElement('h4');
+            title.appendChild(document.createTextNode(job.name));
+            cardContent.appendChild(title);
+            title.classList.add('card-job-title');
+    
+            const description = document.createElement('p');
+            description.appendChild(document.createTextNode(job.description));
+            cardContent.appendChild(description);
+            description.classList.add('card-job-description');
+    
+            const location = document.createElement('span');
+            location.appendChild(document.createTextNode(job.location));
+            cardContent.appendChild(location);
+            location.classList.add('card-job-span');
+    
+            const category = document.createElement('span');
+            category.appendChild(document.createTextNode(job.category));
+            cardContent.appendChild(category);
+            category.classList.add('card-job-span');
+    
+            const seniority = document.createElement('span');
+            seniority.appendChild(document.createTextNode(job.seniority));
+            cardContent.appendChild(seniority);
+            seniority.classList.add('card-job-span');
+    
+            const btnDetails = document.createElement('button');
+            btnDetails.appendChild(document.createTextNode('See Details'));
+            cardContent.appendChild(btnDetails);
+            btnDetails.setAttribute('id', 'btnDetails');
+            btnDetails.classList.add('btn', 'btn-primary');  
+            
+            hideData(spinner);
+        }
+    }, 2000);       
+}
 
 
 /*
@@ -77,98 +71,72 @@ const createCards = (jobs) => {
 
 const filterForm = document.getElementById('filter-form') as HTMLFormElement;
 
+const setFilters = (filterName, filters) => {
 
-const setFilters = async () => {
-    const filtersData = {
-        location: [],
-        seniority: [],
-        category: [],
-    }
+    const select = document.createElement('select');
+    select.classList.add('selectFilter');
+    select.setAttribute('id', `filter${filterName}`);
+    filterForm.appendChild(select);
 
-    const response = await getJobs();
-
-    response.forEach((job: Job) => {  
-        if (!filtersData.location.includes(job.location)) filtersData.location.push(job.location);                    
-        if (!filtersData.seniority.includes(job.seniority)) filtersData.seniority.push(job.seniority);
-        if (!filtersData.category.includes(job.category)) filtersData.category.push(job.category);
-    })           
-
-    for (let filter in filtersData) {
-        const select = document.createElement('select');
-        select.classList.add('selectFilter');
-        select.setAttribute('id', `filter-${filter}`);
-        filterForm.appendChild(select);
-
-        const optionTitle = document.createElement('option'); 
-        select.appendChild(optionTitle);
-        optionTitle.setAttribute('id', filter)
-        optionTitle.setAttribute('value', filter)
-        optionTitle.appendChild(document.createTextNode(filter))
-        select.appendChild(optionTitle);
-    }      
-
-    const filterLocation = document.getElementById('filter-location') as HTMLSelectElement;
-    const filterSeniority = document.getElementById('filter-seniority') as HTMLSelectElement;
-    const filterCategory = document.getElementById('filter-category') as HTMLSelectElement;
-
-    const createOptions = (filter, select) => {
-        filter.forEach((elem => {
-        const option =  document.createElement('option'); 
-        select.appendChild(option);
-        option.setAttribute('id', elem)
-        option.setAttribute('value', elem)
-        option.appendChild(document.createTextNode(elem))
-        select.appendChild(option);
-    }))
-    }
-    createOptions(filtersData.location, filterLocation);
-    createOptions(filtersData.seniority, filterSeniority);
-    createOptions(filtersData.category, filterCategory);
-
-
-    /* Filter Events*/
-
-    const btnSubmit = document.getElementById('btn-submit') as HTMLButtonElement;
-
-    btnSubmit.addEventListener('click', (e) =>{
-        e.preventDefault();
-        let locationSearched;
-        let senioritySearched;
-        let categorySearched;
-
-        if (filterLocation.value != 'location') {locationSearched = filterLocation.value};
-        if (filterSeniority.value != 'seniority') {senioritySearched = filterSeniority.value};
-        if (filterCategory.value != 'category') {categorySearched = filterCategory.value};
-                
-        const loadCards = async () => {
-            let jobs = await getJobs();
-
-            if (locationSearched) {
-                jobs = jobs.filter(job => {
-                    return job.location === locationSearched; 
-                })
-            }
-                
-
-             if (senioritySearched) {
-                jobs = jobs.filter(job => {
-                    return job.seniority === senioritySearched; 
-                })
-             }
-
-             if (categorySearched) {
-                jobs = jobs.filter(job => {
-                    return job.category === categorySearched; 
-                })
-             }
-             
-            createCards(jobs);
-        };
-
-        loadCards();
+    const optionTitle = document.createElement('option'); 
+    select.appendChild(optionTitle);
     
-    })
+    optionTitle.setAttribute('id', `${filterName}`)
+    optionTitle.setAttribute('value', `${filterName}`)
+    optionTitle.appendChild(document.createTextNode(`${filterName}`))
+    select.appendChild(optionTitle);
+
+    createOption(select, filters, 'name', 'id');
 }
+
+/* Filter Events*/
+
+const btnSearch = document.getElementById('btn-submit') as HTMLButtonElement;
+
+
+btnSearch.addEventListener('click', (e) =>{
+    e.preventDefault();
+    let locationSearched;
+    let senioritySearched;
+    let categorySearched;    
+
+    const filterLocations = document.getElementById('filterLocations') as HTMLSelectElement;
+    const filterSeniorities = document.getElementById('filterSeniorities') as HTMLSelectElement;
+    const filterCategories = document.getElementById('filterCategories') as HTMLSelectElement;
+
+
+    if (filterLocations.value != 'Locations') {locationSearched = filterLocations.value};
+    if (filterSeniorities.value != 'Seniorities') {senioritySearched = filterSeniorities.value};
+    if (filterCategories.value != 'Categories') {categorySearched = filterCategories.value};
+            
+    const filterCards = async () => {
+        let jobs = await getJobs();
+
+        if (locationSearched) {
+            jobs = jobs.filter(job => {
+                return job.location === locationSearched; 
+            })
+        }
+            
+        if (senioritySearched) {
+        jobs = jobs.filter(job => {
+            return job.seniority === senioritySearched; 
+        })
+        }
+
+        if (categorySearched) {
+        jobs = jobs.filter(job => {
+            return job.category === categorySearched; 
+        })
+        }
+        createCards(jobs);
+
+    };
+    filterCards(); 
+})
+
+console.log(spinner);
+
     
 
 
@@ -194,12 +162,31 @@ const setFilters = async () => {
     // })
 
 // }
+// }
 
-setFilters();
+
+const loadOptionsForFilter = async () => {
+
+    const categories = await getCategories();
+    const locations = await getLocations();
+    const seniorities = await getSeniorities();
+
+    setFilters("Categories", categories);
+    setFilters("Locations", locations);
+    setFilters("Seniorities", seniorities);
+}
+
+loadOptionsForFilter();
+
+
+    
+
+
 
 
 const loadCards = async () => {
     const jobs = await getJobs();
+   
     createCards(jobs);
 }
 
