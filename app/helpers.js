@@ -10,11 +10,13 @@
 // }
 // const main = document.getElementById("main-home") as HTMLElement;
 /* Show and Hidden Functions */
-var showData = function (elem) {
-    elem.classList.remove('d-hidden');
+var showSpinner = function () {
+    var _a;
+    (_a = document.getElementById('spinner')) === null || _a === void 0 ? void 0 : _a.style.display = 'flex';
 };
-var hideData = function (elem) {
-    elem.classList.add('d-hidden');
+var hideSpinner = function (elem) {
+    var _a;
+    (_a = document.getElementById('spinner')) === null || _a === void 0 ? void 0 : _a.style.display = 'none';
 };
 /* Function to create Options for Select */
 var createOption = function (select, data, value, key) {
