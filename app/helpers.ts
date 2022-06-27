@@ -1,31 +1,32 @@
 
-// const createForm = (titleLabel,inputType,placeHolder) =>{
-
-// const boxForm = document.createElement('div');
-// const labelControl = document.createElement('label');
-// labelControl.appendChild(document.createTextNode(titleLabel))
-// const inputControl = document.createElement('input');
-// inputControl.setAttribute('type', inputType)
-// inputControl.setAttribute('placeholder', placeHolder);
-
-// boxForm.appendChild(labelControl);
-// boxForm.appendChild(inputControl);
-
-
-// }
-
-// const main = document.getElementById("main-home") as HTMLElement;
 
 
 /* Show and Hidden Functions */
 
+// const showData = (elem) =>{
+//     elem.classList.remove('d-hidden');
+// }
+
+// const hideData = (elem) => {
+//     elem.classList.add('d-hidden');
+// }
+
 const showData = (elem) =>{
-    elem.classList.remove('d-hidden');
+    document.getElementById(`${elem}`)?.style.display = 'flex';
 }
 
 const hideData = (elem) => {
-    elem.classList.add('d-hidden');
+    document.getElementById(`${elem}`)?.style.display = 'none';
 }
+
+// const showSpinner = () =>{
+//     document.getElementById('spinner')?.style.display = 'flex';
+// }
+
+// const hideSpinner = () => {
+//     document.getElementById('spinner')?.style.display = 'none';
+// }
+
 
 /* Function to create Options for Select */
 
@@ -42,3 +43,45 @@ const createOption = (select, data, value, key)=>{
     
 }
 
+/* Function to create Form Controls */
+
+const createForm = (titleLabel,controlType,id, div, placeHolder?) =>{
+
+    const boxForm = document.createElement('div') as HTMLDivElement;
+    boxForm.classList.add("container");
+
+    const labelControl = document.createElement('label');
+    labelControl.appendChild(document.createTextNode(titleLabel))
+    labelControl.classList.add("text-dark");
+
+    boxForm.appendChild(labelControl);
+    div.appendChild(boxForm);
+
+    const controlForm = document.createElement(controlType);
+    controlForm.classList.add("form-control");
+    controlForm.setAttribute('placeholder', placeHolder);
+    controlForm.setAttribute('id', id);
+
+    boxForm.appendChild(controlForm);
+     
+}
+
+/* Function to load Options from API */
+
+const loadOptions = async () => {
+
+    const selectLocation = document.getElementById("location") as HTMLSelectElement;
+    const selectCategory = document.getElementById("category") as HTMLSelectElement;
+    const selectSeniority = document.getElementById("seniority") as HTMLSelectElement;
+
+    const locations = await getLocations();
+    createOption(selectLocation, locations,'name', 'id');
+    
+    const categories = await getCategories();
+    createOption(selectCategory, categories,'name', 'id');
+
+    const seniorities = await getSeniorities();
+    createOption(selectSeniority, seniorities,'name', 'id');
+
+
+}

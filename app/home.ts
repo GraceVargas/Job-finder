@@ -1,68 +1,79 @@
 
+const spinner = document.getElementById('spinner');
+
 /*
 *  Function to create cards 
 */
 
 const containerCards = document.getElementById('cards-container') as HTMLDivElement;
-const spinner = document.getElementById('spinner');
-
 
 const createCards = (jobs) => {
 
-    showData(spinner);  
- 
-    setTimeout(() => {
+    const row = document.createElement('div');
+    containerCards.innerHTML = "";
+    row.classList.add('row', 'g-2');
+    containerCards.appendChild(row);
 
-        const row = document.createElement('div');
-        containerCards.innerHTML = "";
-        row.classList.add('row', 'g-2');
-        containerCards.appendChild(row);
+    for (let job of jobs) {
+        const card = document.createElement('div');
+        row.appendChild(card);
+        card.classList.add('card-job', 'col-lg-3', 'col-md-6');
 
-        for (let job of jobs) {
-            const card = document.createElement('div');
-            row.appendChild(card);
-            card.classList.add('card-job', 'col-lg-3', 'col-md-6');
-    
-            const cardContent = document.createElement('div');
-            card.appendChild(cardContent);
-            cardContent.classList.add('p-3', 'cardContent', 'm-2');
-    
-    
-            const title = document.createElement('h4');
-            title.appendChild(document.createTextNode(job.name));
-            cardContent.appendChild(title);
-            title.classList.add('card-job-title');
-    
-            const description = document.createElement('p');
-            description.appendChild(document.createTextNode(job.description));
-            cardContent.appendChild(description);
-            description.classList.add('card-job-description');
-    
-            const location = document.createElement('span');
-            location.appendChild(document.createTextNode(job.location));
-            cardContent.appendChild(location);
-            location.classList.add('card-job-span');
-    
-            const category = document.createElement('span');
-            category.appendChild(document.createTextNode(job.category));
-            cardContent.appendChild(category);
-            category.classList.add('card-job-span');
-    
-            const seniority = document.createElement('span');
-            seniority.appendChild(document.createTextNode(job.seniority));
-            cardContent.appendChild(seniority);
-            seniority.classList.add('card-job-span');
-    
-            const btnDetails = document.createElement('button');
-            btnDetails.appendChild(document.createTextNode('See Details'));
-            cardContent.appendChild(btnDetails);
-            btnDetails.setAttribute('id', 'btnDetails');
-            btnDetails.classList.add('btn', 'btn-primary');  
-            
-            hideData(spinner);
-        }
-    }, 2000);       
+        const cardContent = document.createElement('div');
+        card.appendChild(cardContent);
+        cardContent.classList.add('p-3', 'cardContent', 'm-2');
+
+        const title = document.createElement('h4');
+        title.appendChild(document.createTextNode(job.name));
+        cardContent.appendChild(title);
+        title.classList.add('card-job-title');
+
+        const description = document.createElement('p');
+        description.appendChild(document.createTextNode(job.description));
+        cardContent.appendChild(description);
+        description.classList.add('card-job-description');
+
+        const location = document.createElement('span');
+        location.appendChild(document.createTextNode(job.location));
+        cardContent.appendChild(location);
+        location.classList.add('card-job-span');
+
+        const category = document.createElement('span');
+        category.appendChild(document.createTextNode(job.category));
+        cardContent.appendChild(category);
+        category.classList.add('card-job-span');
+
+        const seniority = document.createElement('span');
+        seniority.appendChild(document.createTextNode(job.seniority));
+        cardContent.appendChild(seniority);
+        seniority.classList.add('card-job-span');
+
+        const btnDetails = document.createElement('button');
+        btnDetails.appendChild(document.createTextNode('See Details'));
+        cardContent.appendChild(btnDetails);
+        btnDetails.setAttribute('id', 'btnDetails');
+        btnDetails.classList.add('btn', 'btn-primary');     
+
+    }     
 }
+
+
+const loadCards = async () => {
+
+    // Esto elimina las cards antes de lanzar el spinner.
+    containerCards.innerHTML = "";
+
+    showData(spinner);
+
+    const jobs = await getJobs();
+   
+    setTimeout(() => {
+        createCards(jobs);
+        hideData(spinner);
+    }, 5000)
+}
+
+loadCards();
 
 
 /*
@@ -89,29 +100,30 @@ const setFilters = (filterName, filters) => {
     createOption(select, filters, 'name', 'id');
 }
 
+const loadOptionsForFilter = async () => {
+
+    const categories = await getCategories();
+    const locations = await getLocations();
+    const seniorities = await getSeniorities();
+
+    setFilters("Categories", categories);
+    setFilters("Locations", locations);
+    setFilters("Seniorities", seniorities);
+}
+
+loadOptionsForFilter();
+
 /* Filter Events*/
 
-const btnSearch = document.getElementById('btn-submit') as HTMLButtonElement;
+const filterCards = async (locationSearched, senioritySearched, categorySearched) => {
 
+    containerCards.innerHTML = "";
+    
+    showData(spinner);
 
-btnSearch.addEventListener('click', (e) =>{
-    e.preventDefault();
-    let locationSearched;
-    let senioritySearched;
-    let categorySearched;    
+    let jobs = await getJobs();
 
-    const filterLocations = document.getElementById('filterLocations') as HTMLSelectElement;
-    const filterSeniorities = document.getElementById('filterSeniorities') as HTMLSelectElement;
-    const filterCategories = document.getElementById('filterCategories') as HTMLSelectElement;
-
-
-    if (filterLocations.value != 'Locations') {locationSearched = filterLocations.value};
-    if (filterSeniorities.value != 'Seniorities') {senioritySearched = filterSeniorities.value};
-    if (filterCategories.value != 'Categories') {categorySearched = filterCategories.value};
-            
-    const filterCards = async () => {
-        let jobs = await getJobs();
-
+    setTimeout(() => {
         if (locationSearched) {
             jobs = jobs.filter(job => {
                 return job.location === locationSearched; 
@@ -119,26 +131,67 @@ btnSearch.addEventListener('click', (e) =>{
         }
             
         if (senioritySearched) {
-        jobs = jobs.filter(job => {
-            return job.seniority === senioritySearched; 
-        })
+            jobs = jobs.filter(job => {
+                return job.seniority === senioritySearched; 
+            })
         }
-
+    
         if (categorySearched) {
-        jobs = jobs.filter(job => {
-            return job.category === categorySearched; 
-        })
+            jobs = jobs.filter(job => {
+                return job.category === categorySearched; 
+            })
         }
+    
         createCards(jobs);
+    
+        hideData(spinner);
 
-    };
-    filterCards(); 
+    }, 5000)
+
+};
+
+const startFilter = async(event) =>{
+    event.preventDefault();
+
+    let locationSearched;
+    let senioritySearched;
+    let categorySearched;
+
+    if (event.target.filterLocations.value != 'Locations') {locationSearched = event.target.filterLocations.value};
+    if (event.target.filterSeniorities.value != 'Seniorities') {senioritySearched = event.target.filterSeniorities.value};
+    if (event.target.filterCategories.value != 'Categories') {categorySearched = event.target.filterCategories.value};         
+    
+    await filterCards(locationSearched, senioritySearched, categorySearched); 
+}
+
+
+filterForm.addEventListener('submit', startFilter);
+
+const btnClear = document.getElementById('btn-cancel') as HTMLButtonElement;
+
+btnClear.addEventListener('click', () => {
+    window.location.reload();
+    
 })
 
-console.log(spinner);
+
+
 
     
+/*
+*  Edit Card Form
+*/
 
+const formEditCard = document.getElementById('form-edit-card') as HTMLFormElement;
+const btnEdit = document.getElementById('btn-edit') as HTMLButtonElement;
+
+createForm("Job title", "input","jobTitle", formEditCard, "Job title")
+createForm("Description", "textarea","descriptionJob", formEditCard, "Add a description");
+createForm("Tags","select","location", formEditCard);
+createForm("","select","category", formEditCard);
+createForm("","select","seniority", formEditCard, btnEdit);
+
+loadOptions();
 
     // filterLocation.addEventListener('change', (e) => {
     //     e.preventDefault();
@@ -165,31 +218,5 @@ console.log(spinner);
 // }
 
 
-const loadOptionsForFilter = async () => {
-
-    const categories = await getCategories();
-    const locations = await getLocations();
-    const seniorities = await getSeniorities();
-
-    setFilters("Categories", categories);
-    setFilters("Locations", locations);
-    setFilters("Seniorities", seniorities);
-}
-
-loadOptionsForFilter();
-
-
-    
-
-
-
-
-const loadCards = async () => {
-    const jobs = await getJobs();
-   
-    createCards(jobs);
-}
-
-loadCards();
 
 
