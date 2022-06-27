@@ -23,9 +23,12 @@
         margin: 10px;
     }
 
-    .filter-btn-wrapper { 
-        display: flex;
-        flex-wrap: nowrap;
+ 
+    #btn-submit {
+        order: 1;
+    }
+
+    #btn-cancel {
         order: 2;
     }
 }
