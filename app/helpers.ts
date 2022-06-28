@@ -11,21 +11,21 @@
 //     elem.classList.add('d-hidden');
 // }
 
-const showData = (elem) =>{
-    document.getElementById(`${elem}`)?.style.display = 'flex';
-}
-
-const hideData = (elem) => {
-    document.getElementById(`${elem}`)?.style.display = 'none';
-}
-
-// const showSpinner = () =>{
-//     document.getElementById('spinner')?.style.display = 'flex';
+// const showData = (elem) =>{
+//     document.getElementById(`${elem}`)?.style.display = 'flex';
 // }
 
-// const hideSpinner = () => {
-//     document.getElementById('spinner')?.style.display = 'none';
+// const hideData = (elem) => {
+//     document.getElementById(`${elem}`)?.style.display = 'none';
 // }
+
+const showSpinner = () =>{
+    document.getElementById('spinner')?.style.display = 'flex';
+}
+
+const hideSpinner = () => {
+    document.getElementById('spinner')?.style.display = 'none';
+}
 
 
 /* Function to create Options for Select */
