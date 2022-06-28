@@ -57,21 +57,11 @@ const createCards = (jobs) => {
         btnDetails.addEventListener('click',()=>{
 
             containerCards.innerHTML = "";
-
-            const cardC = document.createElement('div');
-            containerCards.appendChild(cardC);
-            cardC.classList.add('p-3', 'cardContent', 'm-2');
             
-
-            const btnEditJob =  document.createElement('button');
-            btnEditJob.appendChild(document.createTextNode("Edit job"));
-            cardC.appendChild(btnEditJob);
-
-            const btnDeleteJob =  document.createElement('button');
-            btnDeleteJob.appendChild(document.createTextNode("Delete job"));
-            cardC.appendChild(btnDeleteJob);
-            createCards(job.id);
-
+            const cardC = document.createElement('div');
+            cardC.classList.add('p-3','cardContent');
+            containerCards.appendChild(cardC);
+            createCardContent(job,cardC);
 
 
         })
@@ -92,7 +82,7 @@ const loadCards = async () => {
     setTimeout(() => {
         createCards(jobs);
         hideData(spinner);
-    }, 5000)
+    }, 1000)
 }
 
 loadCards();
@@ -203,6 +193,62 @@ btnClear.addEventListener('click', () => {
 /*
 *  Edit Card Form
 */
+
+const divFormEdit = document.getElementById('card-edit-container') as HTMLDivElement;
+
+
+const createCardContent = (job, cardDetails)=>{
+
+    const title = document.createElement('h4');
+    title.appendChild(document.createTextNode(job.name));
+    cardDetails.appendChild(title);
+    title.classList.add('card-job-title');
+
+    const description = document.createElement('p');
+    description.appendChild(document.createTextNode(job.description));
+    cardDetails.appendChild(description);
+    description.classList.add('card-job-description');
+
+    const location = document.createElement('span');
+    location.appendChild(document.createTextNode(job.location));
+    cardDetails.appendChild(location);
+    location.classList.add('card-job-span');
+
+    const category = document.createElement('span');
+    category.appendChild(document.createTextNode(job.category));
+    cardDetails.appendChild(category);
+    category.classList.add('card-job-span');
+
+    const seniority = document.createElement('span');
+    seniority.appendChild(document.createTextNode(job.seniority));
+    cardDetails.appendChild(seniority);
+    seniority.classList.add('card-job-span');
+
+    const boxBtn = document.createElement('div');
+    boxBtn.classList.add('mt-5');
+
+    const btnEditJob =  document.createElement('button');
+    btnEditJob.appendChild(document.createTextNode("Edit job"));
+    btnEditJob.classList.add('btn', 'btn-success','ms-3');
+    btnEditJob.setAttribute('id',`edit-${job.name}`);
+    boxBtn.appendChild(btnEditJob);
+
+    const btnDeleteJob =  document.createElement('button');
+    btnDeleteJob.appendChild(document.createTextNode("Delete job"));
+    btnDeleteJob.classList.add('btn', 'btn-danger');
+    btnDeleteJob.setAttribute('id',`deleteDB-${job.name}`);
+    boxBtn.appendChild(btnDeleteJob);
+    cardDetails.appendChild(boxBtn);
+
+    btnEditJob.addEventListener('click',()=>{
+        
+        divFormEdit.style.display= "block";
+
+    })
+    
+ 
+
+}
 
 const formEditCard = document.getElementById('form-edit-card') as HTMLFormElement;
 const btnEdit = document.getElementById('btn-edit') as HTMLButtonElement;
