@@ -42,20 +42,20 @@ var _this = this;
 // const hideData = (elem) => {
 //     elem.classList.add('d-hidden');
 // }
-var showData = function (elem) {
-    var _a;
-    (_a = document.getElementById("".concat(elem))) === null || _a === void 0 ? void 0 : _a.style.display = 'flex';
-};
-var hideData = function (elem) {
-    var _a;
-    (_a = document.getElementById("".concat(elem))) === null || _a === void 0 ? void 0 : _a.style.display = 'none';
-};
-// const showSpinner = () =>{
-//     document.getElementById('spinner')?.style.display = 'flex';
+// const showData = (elem) =>{
+//     document.getElementById(`${elem}`)?.style.display = 'flex';
 // }
-// const hideSpinner = () => {
-//     document.getElementById('spinner')?.style.display = 'none';
+// const hideData = (elem) => {
+//     document.getElementById(`${elem}`)?.style.display = 'none';
 // }
+var showSpinner = function () {
+    var _a;
+    (_a = document.getElementById('spinner')) === null || _a === void 0 ? void 0 : _a.style.display = 'flex';
+};
+var hideSpinner = function () {
+    var _a;
+    (_a = document.getElementById('spinner')) === null || _a === void 0 ? void 0 : _a.style.display = 'none';
+};
 /* Function to create Options for Select */
 var createOption = function (select, data, value, key) {
     data.forEach(function (elem) {

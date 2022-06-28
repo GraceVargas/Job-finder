@@ -1,3 +1,6 @@
+/*
+*  Function to create cards
+*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,10 +38,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-var spinner = document.getElementById('spinner');
-/*
-*  Function to create cards
-*/
 var containerCards = document.getElementById('cards-container');
 var createCards = function (jobs) {
     var row = document.createElement('div');
@@ -90,64 +89,28 @@ var createCards = function (jobs) {
         _loop_1(job);
     }
 };
-var loadCards = function () { return __awaiter(_this, void 0, void 0, function () {
-    var jobs;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                // Esto elimina las cards antes de lanzar el spinner.
-                containerCards.innerHTML = "";
-                showData(spinner);
-                return [4 /*yield*/, getJobs()];
-            case 1:
-                jobs = _a.sent();
-                setTimeout(function () {
-                    createCards(jobs);
-                    hideData(spinner);
-                }, 1000);
-                return [2 /*return*/];
-        }
-    });
-}); };
-loadCards();
+
+
 /*
 *  Function to create filters
 */
 var filterForm = document.getElementById('filter-form');
-var setFilters = function (filterName, filters) {
+var setFilters = function (filterName, name, filters) {
     var select = document.createElement('select');
     select.classList.add('selectFilter');
     select.setAttribute('id', "filter".concat(filterName));
+    select.setAttribute('name', name);
     filterForm.appendChild(select);
     var optionTitle = document.createElement('option');
     select.appendChild(optionTitle);
+    optionTitle.setAttribute('disabled', 'disabled');
+    optionTitle.setAttribute('selected', 'selected');
     optionTitle.setAttribute('id', "".concat(filterName));
     optionTitle.setAttribute('value', "".concat(filterName));
     optionTitle.appendChild(document.createTextNode("".concat(filterName)));
     select.appendChild(optionTitle);
     createOption(select, filters, 'name', 'id');
 };
-var loadOptionsForFilter = function () { return __awaiter(_this, void 0, void 0, function () {
-    var categories, locations, seniorities;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, getCategories()];
-            case 1:
-                categories = _a.sent();
-                return [4 /*yield*/, getLocations()];
-            case 2:
-                locations = _a.sent();
-                return [4 /*yield*/, getSeniorities()];
-            case 3:
-                seniorities = _a.sent();
-                setFilters("Categories", categories);
-                setFilters("Locations", locations);
-                setFilters("Seniorities", seniorities);
-                return [2 /*return*/];
-        }
-    });
-}); };
-loadOptionsForFilter();
 /* Filter Events*/
 var filterCards = function (locationSearched, senioritySearched, categorySearched) { return __awaiter(_this, void 0, void 0, function () {
     var jobs;
@@ -155,7 +118,7 @@ var filterCards = function (locationSearched, senioritySearched, categorySearche
         switch (_a.label) {
             case 0:
                 containerCards.innerHTML = "";
-                showData(spinner);
+                showSpinner(spinner);
                 return [4 /*yield*/, getJobs()];
             case 1:
                 jobs = _a.sent();
@@ -176,8 +139,8 @@ var filterCards = function (locationSearched, senioritySearched, categorySearche
                         });
                     }
                     createCards(jobs);
-                    hideData(spinner);
-                }, 5000);
+                    hideSpinner();
+                }, 2000);
                 return [2 /*return*/];
         }
     });
@@ -212,6 +175,26 @@ var btnClear = document.getElementById('btn-cancel');
 btnClear.addEventListener('click', function () {
     window.location.reload();
 });
+var loadOptionsForFilter = function () { return __awaiter(_this, void 0, void 0, function () {
+    var categories, locations, seniorities;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, getCategories()];
+            case 1:
+                categories = _a.sent();
+                return [4 /*yield*/, getLocations()];
+            case 2:
+                locations = _a.sent();
+                return [4 /*yield*/, getSeniorities()];
+            case 3:
+                seniorities = _a.sent();
+                setFilters("Categories", 'categories', categories);
+                setFilters("Locations", 'locations', locations);
+                setFilters("Seniorities", 'seniorities', seniorities);
+                return [2 /*return*/];
+        }
+    });
+}); };
 /*
 *  Edit Card Form
 */
@@ -262,23 +245,36 @@ createForm("Tags", "select", "location", formEditCard);
 createForm("", "select", "category", formEditCard);
 createForm("", "select", "seniority", formEditCard, btnEdit);
 loadOptions();
-// filterLocation.addEventListener('change', (e) => {
-//     e.preventDefault();
-//     const params = new URLSearchParams(window.location.search);
-//     params.set('location', e.target.value);
-//     window.location.href = window.location.pathname + '?' + params.toString(); 
-// })
-// filterSeniority.addEventListener('change', (e) => {
-//     e.preventDefault();
-//     const params = new URLSearchParams(window.location.search);
-//     params.set('seniority', e.target.value);
-//     window.location.href = window.location.pathname + '?' + params.toString(); 
-// })
-// filterCategory.addEventListener('change', (e) => {
-//     e.preventDefault();
-//     const params = new URLSearchParams(window.location.search);
-//     params.set('category', e.target.value);
-//     window.location.href = window.location.pathname + '?' + params.toString(); 
-// })
-// }
-// }
+var loadCards = function () { return __awaiter(_this, void 0, void 0, function () {
+    var jobs;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                // Esto elimina las cards antes de lanzar el spinner.
+                containerCards.innerHTML = "";
+                showSpinner();
+                return [4 /*yield*/, getJobs()];
+            case 1:
+                jobs = _a.sent();
+                setTimeout(function () {
+                    createCards(jobs);
+                    hideSpinner();
+                }, 5000);
+                return [2 /*return*/];
+        }
+    });
+}); };
+var init = function () { return __awaiter(_this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, loadOptionsForFilter()];
+            case 1:
+                _a.sent();
+                return [4 /*yield*/, loadCards()];
+            case 2:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); };
+init();

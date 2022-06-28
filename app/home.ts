@@ -1,5 +1,5 @@
 
-const spinner = document.getElementById('spinner');
+
 
 /*
 *  Function to create cards 
@@ -70,22 +70,9 @@ const createCards = (jobs) => {
 }
 
 
-const loadCards = async () => {
 
-    // Esto elimina las cards antes de lanzar el spinner.
-    containerCards.innerHTML = "";
 
-    showData(spinner);
 
-    const jobs = await getJobs();
-   
-    setTimeout(() => {
-        createCards(jobs);
-        hideData(spinner);
-    }, 1000)
-}
-
-loadCards();
 
 
 /*
@@ -94,15 +81,18 @@ loadCards();
 
 const filterForm = document.getElementById('filter-form') as HTMLFormElement;
 
-const setFilters = (filterName, filters) => {
+const setFilters = (filterName, name, filters) => {
 
     const select = document.createElement('select');
     select.classList.add('selectFilter');
     select.setAttribute('id', `filter${filterName}`);
+    select.setAttribute('name', name);
     filterForm.appendChild(select);
 
     const optionTitle = document.createElement('option'); 
     select.appendChild(optionTitle);
+    optionTitle.setAttribute('disabled', 'disabled');
+    optionTitle.setAttribute('selected', 'selected');
     
     optionTitle.setAttribute('id', `${filterName}`)
     optionTitle.setAttribute('value', `${filterName}`)
@@ -112,18 +102,9 @@ const setFilters = (filterName, filters) => {
     createOption(select, filters, 'name', 'id');
 }
 
-const loadOptionsForFilter = async () => {
 
-    const categories = await getCategories();
-    const locations = await getLocations();
-    const seniorities = await getSeniorities();
 
-    setFilters("Categories", categories);
-    setFilters("Locations", locations);
-    setFilters("Seniorities", seniorities);
-}
 
-loadOptionsForFilter();
 
 /* Filter Events*/
 
@@ -131,7 +112,7 @@ const filterCards = async (locationSearched, senioritySearched, categorySearched
 
     containerCards.innerHTML = "";
     
-    showData(spinner);
+    showSpinner(spinner);
 
     let jobs = await getJobs();
 
@@ -156,9 +137,9 @@ const filterCards = async (locationSearched, senioritySearched, categorySearched
     
         createCards(jobs);
     
-        hideData(spinner);
+        hideSpinner();
 
-    }, 5000)
+    }, 2000)
 
 };
 
@@ -186,7 +167,16 @@ btnClear.addEventListener('click', () => {
     
 })
 
+const loadOptionsForFilter = async () => {
 
+    const categories = await getCategories();
+    const locations = await getLocations();
+    const seniorities = await getSeniorities();
+
+    setFilters("Categories", 'categories', categories);
+    setFilters("Locations", 'locations', locations);
+    setFilters("Seniorities", 'seniorities', seniorities);
+}
 
 
     
@@ -261,30 +251,33 @@ createForm("","select","seniority", formEditCard, btnEdit);
 
 loadOptions();
 
-    // filterLocation.addEventListener('change', (e) => {
-    //     e.preventDefault();
-    //     const params = new URLSearchParams(window.location.search);
-    //     params.set('location', e.target.value);
-    //     window.location.href = window.location.pathname + '?' + params.toString(); 
-    // })
-
-    // filterSeniority.addEventListener('change', (e) => {
-    //     e.preventDefault();
-    //     const params = new URLSearchParams(window.location.search);
-    //     params.set('seniority', e.target.value);
-    //     window.location.href = window.location.pathname + '?' + params.toString(); 
-    // })
-
-    // filterCategory.addEventListener('change', (e) => {
-    //     e.preventDefault();
-    //     const params = new URLSearchParams(window.location.search);
-    //     params.set('category', e.target.value);
-    //     window.location.href = window.location.pathname + '?' + params.toString(); 
-    // })
-
-// }
-// }
 
 
 
 
+const loadCards = async () => {
+
+    // Esto elimina las cards antes de lanzar el spinner.
+    containerCards.innerHTML = "";
+
+    showSpinner();
+
+    const jobs = await getJobs();
+   
+    setTimeout(() => {
+        createCards(jobs);
+        hideSpinner();
+    }, 5000)
+}
+
+
+
+const init = async () => {
+
+    await loadOptionsForFilter();
+    await loadCards();
+
+}
+
+
+init();
