@@ -14,5 +14,15 @@ const getJobs = async () => {
     const data = await response.json();
     return data;    
 
-  }
+}
 
+const deleteJob = async (id)=>{
+    const option = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(id)
+    }
+   await fetch('https://62abf9c0bd0e5d29af1868ca.mockapi.io/jobs',option)
+}
