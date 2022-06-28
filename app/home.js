@@ -45,8 +45,7 @@ var createCards = function (jobs) {
     containerCards.innerHTML = "";
     row.classList.add('row', 'g-2');
     containerCards.appendChild(row);
-    for (var _i = 0, jobs_1 = jobs; _i < jobs_1.length; _i++) {
-        var job = jobs_1[_i];
+    var _loop_1 = function (job) {
         var card = document.createElement('div');
         row.appendChild(card);
         card.classList.add('card-job', 'col-lg-3', 'col-md-6');
@@ -78,6 +77,23 @@ var createCards = function (jobs) {
         cardContent.appendChild(btnDetails);
         btnDetails.setAttribute('id', 'btnDetails');
         btnDetails.classList.add('btn', 'btn-primary');
+        btnDetails.addEventListener('click', function () {
+            containerCards.innerHTML = "";
+            var cardC = document.createElement('div');
+            containerCards.appendChild(cardC);
+            cardC.classList.add('p-3', 'cardContent', 'm-2');
+            var btnEditJob = document.createElement('button');
+            btnEditJob.appendChild(document.createTextNode("Edit job"));
+            cardC.appendChild(btnEditJob);
+            var btnDeleteJob = document.createElement('button');
+            btnDeleteJob.appendChild(document.createTextNode("Delete job"));
+            cardC.appendChild(btnDeleteJob);
+            createCards(job.id);
+        });
+    };
+    for (var _i = 0, jobs_1 = jobs; _i < jobs_1.length; _i++) {
+        var job = jobs_1[_i];
+        _loop_1(job);
     }
 };
 var loadCards = function () { return __awaiter(_this, void 0, void 0, function () {

@@ -54,6 +54,28 @@ const createCards = (jobs) => {
         btnDetails.setAttribute('id', 'btnDetails');
         btnDetails.classList.add('btn', 'btn-primary');     
 
+        btnDetails.addEventListener('click',()=>{
+
+            containerCards.innerHTML = "";
+
+            const cardC = document.createElement('div');
+            containerCards.appendChild(cardC);
+            cardC.classList.add('p-3', 'cardContent', 'm-2');
+            
+
+            const btnEditJob =  document.createElement('button');
+            btnEditJob.appendChild(document.createTextNode("Edit job"));
+            cardC.appendChild(btnEditJob);
+
+            const btnDeleteJob =  document.createElement('button');
+            btnDeleteJob.appendChild(document.createTextNode("Delete job"));
+            cardC.appendChild(btnDeleteJob);
+            createCards(job.id);
+
+
+
+        })
+
     }     
 }
 

@@ -68,3 +68,22 @@ var getJobs = function () { return __awaiter(_this, void 0, void 0, function () 
         }
     });
 }); };
+var deleteJob = function (id) { return __awaiter(_this, void 0, void 0, function () {
+    var option;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                option = {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(id)
+                };
+                return [4 /*yield*/, fetch('https://62abf9c0bd0e5d29af1868ca.mockapi.io/jobs', option)];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); };
