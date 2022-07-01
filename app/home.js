@@ -77,11 +77,16 @@ var createCards = function (jobs) {
         btnDetails.setAttribute('id', 'btnDetails');
         btnDetails.classList.add('btn', 'btn-primary');
         btnDetails.addEventListener('click', function () {
+            showSpinner();
             containerCards.innerHTML = "";
-            var cardC = document.createElement('div');
-            cardC.classList.add('p-3', 'cardContent');
-            containerCards.appendChild(cardC);
-            createCardContent(job, cardC);
+            setTimeout(function () {
+                var cardC = document.createElement('div');
+                cardC.classList.add('p-3', 'card-details');
+                cardC.setAttribute('id', 'cardDetails-Delete');
+                containerCards.appendChild(cardC);
+                createCardContent(job, cardC);
+                hideSpinner();
+            }, 1000);
         });
     };
     for (var _i = 0, jobs_1 = jobs; _i < jobs_1.length; _i++) {
@@ -89,8 +94,6 @@ var createCards = function (jobs) {
         _loop_1(job);
     }
 };
-
-
 /*
 *  Function to create filters
 */
@@ -118,7 +121,7 @@ var filterCards = function (locationSearched, senioritySearched, categorySearche
         switch (_a.label) {
             case 0:
                 containerCards.innerHTML = "";
-                showSpinner(spinner);
+                showSpinner();
                 return [4 /*yield*/, getJobs()];
             case 1:
                 jobs = _a.sent();
@@ -199,6 +202,7 @@ var loadOptionsForFilter = function () { return __awaiter(_this, void 0, void 0,
 *  Edit Card Form
 */
 var divFormEdit = document.getElementById('card-edit-container');
+var cardDetailsDel = document.getElementById('cardDetails-Delete');
 var createCardContent = function (job, cardDetails) {
     var title = document.createElement('h4');
     title.appendChild(document.createTextNode(job.name));
@@ -236,6 +240,10 @@ var createCardContent = function (job, cardDetails) {
     btnEditJob.addEventListener('click', function () {
         divFormEdit.style.display = "block";
     });
+    btnDeleteJob.addEventListener('click', function () {
+        cardDetails.style.display = "none";
+        createCardDelete(containerCards, job);
+    });
 };
 var formEditCard = document.getElementById('form-edit-card');
 var btnEdit = document.getElementById('btn-edit');
@@ -259,7 +267,7 @@ var loadCards = function () { return __awaiter(_this, void 0, void 0, function (
                 setTimeout(function () {
                     createCards(jobs);
                     hideSpinner();
-                }, 5000);
+                }, 1000);
                 return [2 /*return*/];
         }
     });

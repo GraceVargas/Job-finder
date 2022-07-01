@@ -68,7 +68,7 @@ var getJobs = function () { return __awaiter(_this, void 0, void 0, function () 
         }
     });
 }); };
-var deleteJob = function (id) { return __awaiter(_this, void 0, void 0, function () {
+var deleteJob = function (id, job) { return __awaiter(_this, void 0, void 0, function () {
     var option;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -78,9 +78,9 @@ var deleteJob = function (id) { return __awaiter(_this, void 0, void 0, function
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(id)
+                    body: JSON.stringify(job)
                 };
-                return [4 /*yield*/, fetch('https://62abf9c0bd0e5d29af1868ca.mockapi.io/jobs', option)];
+                return [4 /*yield*/, fetch("https://62abf9c0bd0e5d29af1868ca.mockapi.io/jobs/".concat(id), option)];
             case 1:
                 _a.sent();
                 return [2 /*return*/];
