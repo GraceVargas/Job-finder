@@ -16,13 +16,13 @@ const getJobs = async () => {
 
 }
 
-const deleteJob = async (id)=>{
+const deleteJob = async (id, job)=>{
     const option = {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(id)
+        body: JSON.stringify(job)
     }
-   await fetch('https://62abf9c0bd0e5d29af1868ca.mockapi.io/jobs',option)
+   await fetch(`https://62abf9c0bd0e5d29af1868ca.mockapi.io/jobs/${id}`,option)
 }

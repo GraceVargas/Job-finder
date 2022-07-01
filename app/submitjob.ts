@@ -20,7 +20,6 @@ const selectSeniority = document.getElementById('seniority');
 form.addEventListener('submit',(e)=>{
     e.preventDefault();
     
-
     const job = {
         name : e.target.jobTitle.value,
         description: e.target.descriptionJob.value,
@@ -28,10 +27,12 @@ form.addEventListener('submit',(e)=>{
         category: selectCategory.value,
         seniority: selectSeniority.value
     }
-    addJob(job)
 
-    setTimeout(window.location.href = "./index.html", 2000);
+    addJob(job);
 
-
+    setTimeout(() => {
+        window.location.href = "./index.html";
+        
+    }, 1000);
 
 })

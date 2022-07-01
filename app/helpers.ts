@@ -86,5 +86,45 @@ const loadOptions = async () => {
 
 }
 
+/* Function to create card for delete*/
+
+const createCardDelete =  (cardToDelete, job) =>{
+
+    const cardDelete = document.createElement('div');
+    cardDelete.classList.add('cardDelete');
+    cardDelete.appendChild(document.createTextNode("Are you sure to delete this job?"));
+    cardToDelete.appendChild(cardDelete);
+
+    const boxBtn = document.createElement('div');
+    cardDelete.appendChild(boxBtn);
+
+    const btnDeleteDB = document.createElement('button');
+    btnDeleteDB.classList.add('btn','btn-danger');
+    btnDeleteDB.setAttribute('id', 'deleteDB')
+    btnDeleteDB.appendChild(document.createTextNode('Delete'))
+    boxBtn.appendChild(btnDeleteDB);
+
+    const btnCancel = document.createElement('button');
+    btnCancel.classList.add('btn','btn-secondary');
+    btnCancel.appendChild(document.createTextNode('Cancel'))
+    boxBtn.appendChild(btnCancel);
+
+    btnDeleteDB.addEventListener('click', ()=>{
+
+        deleteJob(job.id, job);
+        
+        setTimeout(() => {
+            loadCards();
+        }, 1000);
+       
+    })
+
+    btnCancel.addEventListener('click', ()=>{
+        loadCards();
+    })
+
+
+
+}
 
 
