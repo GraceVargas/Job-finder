@@ -111,7 +111,7 @@ const createCardDelete =  (cardToDelete, job) =>{
 
     btnDeleteDB.addEventListener('click', ()=>{
 
-        deleteJob(job.id, job);
+        deleteJob(job.id);
         
         setTimeout(() => {
             loadCards();
