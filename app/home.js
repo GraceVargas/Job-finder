@@ -1,6 +1,3 @@
-/*
-*  Function to create cards
-*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -77,6 +74,7 @@ var createCards = function (jobs) {
         btnDetails.setAttribute('id', 'btnDetails');
         btnDetails.classList.add('btn', 'btn-primary');
         btnDetails.addEventListener('click', function () {
+            showSpinner();
             containerCards.innerHTML = "";
             var cardC = document.createElement('div');
             cardC.classList.add('p-3', 'cardContent');
@@ -89,9 +87,6 @@ var createCards = function (jobs) {
         _loop_1(job);
     }
 };
-/*
-*  Function to create filters
-*/
 var filterForm = document.getElementById('filter-form');
 var setFilters = function (filterName, name, filters) {
     var select = document.createElement('select');
@@ -117,14 +112,13 @@ var setFilters = function (filterName, name, filters) {
     select.appendChild(optionTitle);
     createOption(select, filters, 'name', 'id');
 };
-/* Filter Events*/
 var filterCards = function (locationSearched, senioritySearched, categorySearched) { return __awaiter(_this, void 0, void 0, function () {
     var jobs;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 containerCards.innerHTML = "";
-                showSpinner(spinner);
+                showSpinner();
                 return [4 /*yield*/, getJobs()];
             case 1:
                 jobs = _a.sent();
@@ -201,6 +195,7 @@ var loadOptionsForFilter = function () { return __awaiter(_this, void 0, void 0,
 *  Edit Card Form
 */
 var divFormEdit = document.getElementById('card-edit-container');
+var cardDetailsDel = document.getElementById('cardDetails-Delete');
 var createCardContent = function (job, cardDetails) {
     var title = document.createElement('h4');
     title.appendChild(document.createTextNode(job.name));

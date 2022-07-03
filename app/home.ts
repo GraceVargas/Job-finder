@@ -54,12 +54,20 @@ const createCards = (jobs) => {
 
         btnDetails.addEventListener('click',()=>{
 
+            showSpinner();
             containerCards.innerHTML = "";
-            
-            const cardC = document.createElement('div');
-            cardC.classList.add('p-3','cardContent');
-            containerCards.appendChild(cardC);
-            createCardContent(job,cardC);
+
+            setTimeout(() => {
+                const cardC = document.createElement('div');
+                cardC.classList.add('p-3','card-details');
+                cardC.setAttribute('id','cardDetails-Delete')
+                containerCards.appendChild(cardC);
+                createCardContent(job,cardC);
+
+                hideSpinner();
+                
+            }, 1000);
+          
         })
     }     
 }
@@ -108,7 +116,7 @@ const filterCards = async (locationSearched, senioritySearched, categorySearched
 
     containerCards.innerHTML = "";
     
-    showSpinner(spinner);
+    showSpinner();
 
     let jobs = await getJobs();
 
@@ -176,14 +184,13 @@ const loadOptionsForFilter = async () => {
     setFilters("Seniorities", 'seniorities', seniorities);
 }
 
-
     
 /*
 *  Edit Card Form
 */
 
 const divFormEdit = document.getElementById('card-edit-container') as HTMLDivElement;
-
+const cardDetailsDel = document.getElementById('cardDetails-Delete') as HTMLDivElement;
 
 
 const createCardContent = (job, cardDetails)=>{
@@ -228,6 +235,13 @@ const createCardContent = (job, cardDetails)=>{
     btnDeleteJob.setAttribute('id',`deleteDB-${job.name}`);
     boxBtn.appendChild(btnDeleteJob);
     cardDetails.appendChild(boxBtn);
+
+
+    btnDeleteJob.addEventListener('click', ()=>{
+
+        cardDetails.style.display= "none";
+        createCardDelete(containerCards, job);
+    })
 
     btnEditJob.addEventListener('click',()=>{
 
@@ -293,7 +307,7 @@ const loadCards = async () => {
     setTimeout(() => {
         createCards(jobs);
         hideSpinner();
-    }, 2000)
+    }, 1000)
 }
 
 

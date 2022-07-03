@@ -22,5 +22,7 @@ form.addEventListener('submit', function (e) {
         seniority: selectSeniority.value
     };
     addJob(job);
-    setTimeout(window.location.href = "./index.html", 2000);
+    setTimeout(function () {
+        window.location.href = "./index.html";
+    }, 1000);
 });

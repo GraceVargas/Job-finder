@@ -94,3 +94,30 @@ var loadOptions = function () { return __awaiter(_this, void 0, void 0, function
         }
     });
 }); };
+/* Function to create card for delete*/
+var createCardDelete = function (cardToDelete, job) {
+    var cardDelete = document.createElement('div');
+    cardDelete.classList.add('cardDelete');
+    cardDelete.appendChild(document.createTextNode("Are you sure to delete this job?"));
+    cardToDelete.appendChild(cardDelete);
+    var boxBtn = document.createElement('div');
+    cardDelete.appendChild(boxBtn);
+    var btnDeleteDB = document.createElement('button');
+    btnDeleteDB.classList.add('btn', 'btn-danger');
+    btnDeleteDB.setAttribute('id', 'deleteDB');
+    btnDeleteDB.appendChild(document.createTextNode('Delete'));
+    boxBtn.appendChild(btnDeleteDB);
+    var btnCancel = document.createElement('button');
+    btnCancel.classList.add('btn', 'btn-secondary');
+    btnCancel.appendChild(document.createTextNode('Cancel'));
+    boxBtn.appendChild(btnCancel);
+    btnDeleteDB.addEventListener('click', function () {
+        deleteJob(job.id, job);
+        setTimeout(function () {
+            loadCards();
+        }, 1000);
+    });
+    btnCancel.addEventListener('click', function () {
+        loadCards();
+    });
+};
