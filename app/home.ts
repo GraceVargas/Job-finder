@@ -1,6 +1,4 @@
 
-
-
 /*
 *  Function to create cards 
 */
@@ -62,17 +60,9 @@ const createCards = (jobs) => {
             cardC.classList.add('p-3','cardContent');
             containerCards.appendChild(cardC);
             createCardContent(job,cardC);
-
-
         })
-
     }     
 }
-
-
-
-
-
 
 
 /*
@@ -89,6 +79,15 @@ const setFilters = (filterName, name, filters) => {
     select.setAttribute('name', name);
     filterForm.appendChild(select);
 
+    select.addEventListener('change', (e) => {
+        e.preventDefault();  
+        e.stopPropagation();
+        const params = new URLSearchParams(window.location.search);
+        params.set(filterName, e.target.value);
+        let newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + params.toString();
+            window.history.pushState({path: newurl}, '', newurl);
+    })
+
     const optionTitle = document.createElement('option'); 
     select.appendChild(optionTitle);
     optionTitle.setAttribute('disabled', 'disabled');
@@ -103,9 +102,6 @@ const setFilters = (filterName, name, filters) => {
 }
 
 
-
-
-
 /* Filter Events*/
 
 const filterCards = async (locationSearched, senioritySearched, categorySearched) => {
@@ -115,6 +111,8 @@ const filterCards = async (locationSearched, senioritySearched, categorySearched
     showSpinner(spinner);
 
     let jobs = await getJobs();
+
+
 
     setTimeout(() => {
         if (locationSearched) {
@@ -146,13 +144,10 @@ const filterCards = async (locationSearched, senioritySearched, categorySearched
 const startFilter = async(event) =>{
     event.preventDefault();
 
-    let locationSearched;
-    let senioritySearched;
-    let categorySearched;
-
-    if (event.target.filterLocations.value != 'Locations') {locationSearched = event.target.filterLocations.value};
-    if (event.target.filterSeniorities.value != 'Seniorities') {senioritySearched = event.target.filterSeniorities.value};
-    if (event.target.filterCategories.value != 'Categories') {categorySearched = event.target.filterCategories.value};         
+    const params = new URLSearchParams(window.location.search);
+    let locationSearched = params.get('Locations');
+    let categorySearched = params.get('Categories');
+    let senioritySearched = params.get('Seniorities');    
     
     await filterCards(locationSearched, senioritySearched, categorySearched); 
 }
@@ -163,8 +158,11 @@ filterForm.addEventListener('submit', startFilter);
 const btnClear = document.getElementById('btn-cancel') as HTMLButtonElement;
 
 btnClear.addEventListener('click', () => {
-    window.location.reload();
-    
+    let url = new URL(location);
+    url.searchParams.delete('Categories');
+    url.searchParams.delete('Locations');
+    url.searchParams.delete('Seniorities');
+    history.pushState(null, document.title, url);    
 })
 
 const loadOptionsForFilter = async () => {
@@ -185,6 +183,7 @@ const loadOptionsForFilter = async () => {
 */
 
 const divFormEdit = document.getElementById('card-edit-container') as HTMLDivElement;
+
 
 
 const createCardContent = (job, cardDetails)=>{
@@ -231,13 +230,40 @@ const createCardContent = (job, cardDetails)=>{
     cardDetails.appendChild(boxBtn);
 
     btnEditJob.addEventListener('click',()=>{
-        
+
         divFormEdit.style.display= "block";
 
-    })
-    
- 
+        const jobTitleItem = document.getElementById('jobTitle') as HTMLInputElement;
+        const descriptionJobItem = document.getElementById('descriptionJob') as HTMLInputElement;
+        const locationItem = document.getElementById('location') as HTMLSelectElement;
+        const categoryItem = document.getElementById('category') as HTMLSelectElement;
+        const seniorityItem = document.getElementById('seniority') as HTMLSelectElement;
 
+        jobTitleItem.value = job.name;
+        descriptionJobItem.value = job.description;
+        locationItem.value = job.location;
+        categoryItem.value = job.category;
+        seniorityItem.value = job.seniority;
+
+        const btnEditJob = document.getElementById('btn-edit') as HTMLButtonElement;
+        const editCardContainer = document.getElementById('card-edit-container') as HTMLDivElement;
+
+        btnEditJob.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            const modifiedJob = {
+                name: jobTitleItem.value,
+                description:  descriptionJobItem.value,
+                location: locationItem.value,
+                category: categoryItem.value,
+                seniority: seniorityItem.value
+            }            
+
+            await editJob(job.id, modifiedJob);
+             loadCards();
+            editCardContainer.style.display= "none";           
+        })
+    })   
 }
 
 const formEditCard = document.getElementById('form-edit-card') as HTMLFormElement;
@@ -267,7 +293,7 @@ const loadCards = async () => {
     setTimeout(() => {
         createCards(jobs);
         hideSpinner();
-    }, 5000)
+    }, 2000)
 }
 
 
@@ -276,8 +302,12 @@ const init = async () => {
 
     await loadOptionsForFilter();
     await loadCards();
-
 }
 
 
 init();
+
+
+
+
+

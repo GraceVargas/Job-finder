@@ -68,7 +68,7 @@ var getJobs = function () { return __awaiter(_this, void 0, void 0, function () 
         }
     });
 }); };
-var deleteJob = function (id) { return __awaiter(_this, void 0, void 0, function () {
+var deleteJob = function (id, job) { return __awaiter(_this, void 0, void 0, function () {
     var option;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -78,9 +78,42 @@ var deleteJob = function (id) { return __awaiter(_this, void 0, void 0, function
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(id)
+                    body: JSON.stringify(job)
                 };
-                return [4 /*yield*/, fetch('https://62abf9c0bd0e5d29af1868ca.mockapi.io/jobs', option)];
+                return [4 /*yield*/, fetch("https://62abf9c0bd0e5d29af1868ca.mockapi.io/jobs/".concat(id), option)];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); };
+var getJob = function (id) { return __awaiter(_this, void 0, void 0, function () {
+    var response, data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, fetch("https://62abf9c0bd0e5d29af1868ca.mockapi.io/jobs?filter=".concat(id))];
+            case 1:
+                response = _a.sent();
+                return [4 /*yield*/, response.json()];
+            case 2:
+                data = _a.sent();
+                return [2 /*return*/, data];
+        }
+    });
+}); };
+var editJob = function (id, modifiedJob) { return __awaiter(_this, void 0, void 0, function () {
+    var option;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                option = {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(modifiedJob)
+                };
+                return [4 /*yield*/, fetch("https://62abf9c0bd0e5d29af1868ca.mockapi.io/jobs/".concat(id), option)];
             case 1:
                 _a.sent();
                 return [2 /*return*/];
