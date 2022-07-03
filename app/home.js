@@ -1,6 +1,3 @@
-/*
-*  Function to create cards
-*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -79,14 +76,10 @@ var createCards = function (jobs) {
         btnDetails.addEventListener('click', function () {
             showSpinner();
             containerCards.innerHTML = "";
-            setTimeout(function () {
-                var cardC = document.createElement('div');
-                cardC.classList.add('p-3', 'card-details');
-                cardC.setAttribute('id', 'cardDetails-Delete');
-                containerCards.appendChild(cardC);
-                createCardContent(job, cardC);
-                hideSpinner();
-            }, 1000);
+            var cardC = document.createElement('div');
+            cardC.classList.add('p-3', 'cardContent');
+            containerCards.appendChild(cardC);
+            createCardContent(job, cardC);
         });
     };
     for (var _i = 0, jobs_1 = jobs; _i < jobs_1.length; _i++) {
@@ -94,9 +87,6 @@ var createCards = function (jobs) {
         _loop_1(job);
     }
 };
-/*
-*  Function to create filters
-*/
 var filterForm = document.getElementById('filter-form');
 var setFilters = function (filterName, name, filters) {
     var select = document.createElement('select');
@@ -104,6 +94,14 @@ var setFilters = function (filterName, name, filters) {
     select.setAttribute('id', "filter".concat(filterName));
     select.setAttribute('name', name);
     filterForm.appendChild(select);
+    select.addEventListener('change', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var params = new URLSearchParams(window.location.search);
+        params.set(filterName, e.target.value);
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + params.toString();
+        window.history.pushState({ path: newurl }, '', newurl);
+    });
     var optionTitle = document.createElement('option');
     select.appendChild(optionTitle);
     optionTitle.setAttribute('disabled', 'disabled');
@@ -114,7 +112,6 @@ var setFilters = function (filterName, name, filters) {
     select.appendChild(optionTitle);
     createOption(select, filters, 'name', 'id');
 };
-/* Filter Events*/
 var filterCards = function (locationSearched, senioritySearched, categorySearched) { return __awaiter(_this, void 0, void 0, function () {
     var jobs;
     return __generator(this, function (_a) {
@@ -149,23 +146,15 @@ var filterCards = function (locationSearched, senioritySearched, categorySearche
     });
 }); };
 var startFilter = function (event) { return __awaiter(_this, void 0, void 0, function () {
-    var locationSearched, senioritySearched, categorySearched;
+    var params, locationSearched, categorySearched, senioritySearched;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 event.preventDefault();
-                if (event.target.filterLocations.value != 'Locations') {
-                    locationSearched = event.target.filterLocations.value;
-                }
-                ;
-                if (event.target.filterSeniorities.value != 'Seniorities') {
-                    senioritySearched = event.target.filterSeniorities.value;
-                }
-                ;
-                if (event.target.filterCategories.value != 'Categories') {
-                    categorySearched = event.target.filterCategories.value;
-                }
-                ;
+                params = new URLSearchParams(window.location.search);
+                locationSearched = params.get('Locations');
+                categorySearched = params.get('Categories');
+                senioritySearched = params.get('Seniorities');
                 return [4 /*yield*/, filterCards(locationSearched, senioritySearched, categorySearched)];
             case 1:
                 _a.sent();
@@ -176,7 +165,11 @@ var startFilter = function (event) { return __awaiter(_this, void 0, void 0, fun
 filterForm.addEventListener('submit', startFilter);
 var btnClear = document.getElementById('btn-cancel');
 btnClear.addEventListener('click', function () {
-    window.location.reload();
+    var url = new URL(location);
+    url.searchParams["delete"]('Categories');
+    url.searchParams["delete"]('Locations');
+    url.searchParams["delete"]('Seniorities');
+    history.pushState(null, document.title, url);
 });
 var loadOptionsForFilter = function () { return __awaiter(_this, void 0, void 0, function () {
     var categories, locations, seniorities;
@@ -239,10 +232,40 @@ var createCardContent = function (job, cardDetails) {
     cardDetails.appendChild(boxBtn);
     btnEditJob.addEventListener('click', function () {
         divFormEdit.style.display = "block";
-    });
-    btnDeleteJob.addEventListener('click', function () {
-        cardDetails.style.display = "none";
-        createCardDelete(containerCards, job);
+        var jobTitleItem = document.getElementById('jobTitle');
+        var descriptionJobItem = document.getElementById('descriptionJob');
+        var locationItem = document.getElementById('location');
+        var categoryItem = document.getElementById('category');
+        var seniorityItem = document.getElementById('seniority');
+        jobTitleItem.value = job.name;
+        descriptionJobItem.value = job.description;
+        locationItem.value = job.location;
+        categoryItem.value = job.category;
+        seniorityItem.value = job.seniority;
+        var btnEditJob = document.getElementById('btn-edit');
+        var editCardContainer = document.getElementById('card-edit-container');
+        btnEditJob.addEventListener('click', function (e) { return __awaiter(_this, void 0, void 0, function () {
+            var modifiedJob;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        e.preventDefault();
+                        modifiedJob = {
+                            name: jobTitleItem.value,
+                            description: descriptionJobItem.value,
+                            location: locationItem.value,
+                            category: categoryItem.value,
+                            seniority: seniorityItem.value
+                        };
+                        return [4 /*yield*/, editJob(job.id, modifiedJob)];
+                    case 1:
+                        _a.sent();
+                        loadCards();
+                        editCardContainer.style.display = "none";
+                        return [2 /*return*/];
+                }
+            });
+        }); });
     });
 };
 var formEditCard = document.getElementById('form-edit-card');
@@ -267,7 +290,7 @@ var loadCards = function () { return __awaiter(_this, void 0, void 0, function (
                 setTimeout(function () {
                     createCards(jobs);
                     hideSpinner();
-                }, 1000);
+                }, 2000);
                 return [2 /*return*/];
         }
     });

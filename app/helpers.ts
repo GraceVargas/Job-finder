@@ -3,21 +3,6 @@
 
 /* Show and Hidden Functions */
 
-// const showData = (elem) =>{
-//     elem.classList.remove('d-hidden');
-// }
-
-// const hideData = (elem) => {
-//     elem.classList.add('d-hidden');
-// }
-
-// const showData = (elem) =>{
-//     document.getElementById(`${elem}`)?.style.display = 'flex';
-// }
-
-// const hideData = (elem) => {
-//     document.getElementById(`${elem}`)?.style.display = 'none';
-// }
 
 const showSpinner = () =>{
     document.getElementById('spinner')?.style.display = 'flex';

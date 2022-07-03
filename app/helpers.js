@@ -36,18 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _this = this;
-// const showData = (elem) =>{
-//     elem.classList.remove('d-hidden');
-// }
-// const hideData = (elem) => {
-//     elem.classList.add('d-hidden');
-// }
-// const showData = (elem) =>{
-//     document.getElementById(`${elem}`)?.style.display = 'flex';
-// }
-// const hideData = (elem) => {
-//     document.getElementById(`${elem}`)?.style.display = 'none';
-// }
 var showSpinner = function () {
     var _a;
     (_a = document.getElementById('spinner')) === null || _a === void 0 ? void 0 : _a.style.display = 'flex';
