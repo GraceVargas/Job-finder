@@ -1,4 +1,4 @@
-const addJob = async (newJob)=>{
+const addJob = async (newJob: any)=>{
     const option = {
         method: 'POST',
         headers: {
@@ -16,19 +16,15 @@ const getJobs = async () => {
 
 }
 
-const deleteJob = async (id, job)=>{
+const deleteJob = async (id: string, job: any)=>{
     const option = {
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: 
     }
    await fetch(`https://62abf9c0bd0e5d29af1868ca.mockapi.io/jobs/${id}`,option)
 }
 
 
-const getJob = async (id) => {
+const getJob = async (id: string) => {
     const response = await fetch(`https://62abf9c0bd0e5d29af1868ca.mockapi.io/jobs?filter=${id}`);
     const data = await response.json();
     return data;    
@@ -36,7 +32,7 @@ const getJob = async (id) => {
 }
 
 
-const editJob = async (id, modifiedJob)=>{
+const editJob = async (id: string, modifiedJob: any)=>{
     const option = {
         method: 'PUT',
         headers: {
