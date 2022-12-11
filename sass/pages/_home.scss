@@ -1,0 +1,97 @@
+.d-hidden {
+    display: none;
+}
+
+/* 
+*  Filters 
+*/
+
+#filter-container {
+    min-height: 150px;
+    display: flex;
+    justify-content: center;
+}
+
+#filter-form {
+    display: flex;
+    align-items: center;
+
+
+    .selectFilter {
+        width: 170px;
+        padding: 4px;
+        margin: 10px;
+    }
+
+ 
+    #btn-submit {
+        order: 1;
+    }
+
+    #btn-cancel {
+        order: 2;
+    }
+}
+
+
+
+/* 
+*  Cards 
+*/
+
+.cardContent {
+    position: relative;
+    height: 240px;
+    box-shadow: 0px 3px 11px -1px rgb(0 0 0 / 25%);
+    border-radius: 5px;
+    
+    #btnDetails {
+        position: absolute;
+        bottom: 7px;
+    }
+   
+    
+    
+
+}
+
+.card-details{
+    width: 250px;
+    border: solid 1px rgb(201, 197, 197);
+    border-radius: 5px;
+
+}
+
+.card-job-span {
+    background-color: rgba(72, 72, 230, 0.685);
+    color: #FFF;
+    border-radius: 2px;
+    margin: 1px;
+    padding: 2px;
+    font-size: 13px;
+}
+
+
+.cardDelete{
+    height: 96px;
+    display: flex;
+    background-color: rgb(239, 193, 193);
+    justify-content:flex-start;
+    padding: 20px;
+    align-items:center;
+
+}
+
+
+/* 
+*  Responsive 
+*/
+
+@media(max-width: 768px) {
+
+    .filter-form {
+        flex-direction: column;
+        justify-content: start;
+    }
+
+}

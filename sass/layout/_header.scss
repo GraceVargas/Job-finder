@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    padding: 0;
+    padding-top: 50px;
+}
+
+*, *::before, * ::after {
+    box-sizing: border-box;
+    }
+
+#header {
+    background-color: $primary-color;
+    height: 50px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+
+.default-list{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+
+    li {
+        padding: 15px;
+
+        a {
+            color: $primary-color-text;
+            text-decoration: none;
+            font-size: 17px;
+        }
+    }
+
+    li:last-child {
+        margin-left: auto;
+    }
+}

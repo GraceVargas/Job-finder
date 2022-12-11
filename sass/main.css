@@ -1,0 +1,154 @@
+body {
+  margin: 0;
+  padding: 0;
+  padding-top: 50px;
+}
+
+*, *::before, * ::after {
+  box-sizing: border-box;
+}
+
+#header {
+  background-color: rgba(51, 51, 255, 0.897);
+  height: 50px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.default-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+}
+.default-list li {
+  padding: 15px;
+}
+.default-list li a {
+  color: rgba(255, 255, 255, 0.87);
+  text-decoration: none;
+  font-size: 17px;
+}
+.default-list li:last-child {
+  margin-left: auto;
+}
+
+.d-hidden {
+  display: none;
+}
+
+/* 
+*  Filters 
+*/
+#filter-container {
+  min-height: 150px;
+  display: flex;
+  justify-content: center;
+}
+
+#filter-form {
+  display: flex;
+  align-items: center;
+}
+#filter-form .selectFilter {
+  width: 170px;
+  padding: 4px;
+  margin: 10px;
+}
+#filter-form #btn-submit {
+  order: 1;
+}
+#filter-form #btn-cancel {
+  order: 2;
+}
+
+/* 
+*  Cards 
+*/
+.cardContent {
+  position: relative;
+  height: 240px;
+  box-shadow: 0px 3px 11px -1px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+}
+.cardContent #btnDetails {
+  position: absolute;
+  bottom: 7px;
+}
+
+.card-details {
+  width: 250px;
+  border: solid 1px rgb(201, 197, 197);
+  border-radius: 5px;
+}
+
+.card-job-span {
+  background-color: rgba(72, 72, 230, 0.685);
+  color: #FFF;
+  border-radius: 2px;
+  margin: 1px;
+  padding: 2px;
+  font-size: 13px;
+}
+
+.cardDelete {
+  height: 96px;
+  display: flex;
+  background-color: rgb(239, 193, 193);
+  justify-content: flex-start;
+  padding: 20px;
+  align-items: center;
+}
+
+/* 
+*  Responsive 
+*/
+@media (max-width: 768px) {
+  .filter-form {
+    flex-direction: column;
+    justify-content: start;
+  }
+}
+.btn {
+  margin: 5px;
+  padding: 4px;
+  border: solid 1px;
+  border-radius: 5px;
+}
+
+.btn-secondary {
+  border-color: rgba(51, 51, 255, 0.897);
+  background-color: rgba(255, 255, 255, 0.87);
+  color: rgba(51, 51, 255, 0.897);
+}
+.btn-secondary:hover {
+  background-color: rgba(51, 51, 255, 0.897);
+  border-color: rgba(51, 51, 255, 0.897);
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.btn-primary {
+  background-color: rgba(51, 51, 255, 0.897);
+  color: rgba(255, 255, 255, 0.87);
+}
+
+#btnDetails {
+  display: block;
+}
+
+#form-edit-card {
+  position: relative;
+  height: 400px;
+}
+#form-edit-card #btn-edit {
+  position: absolute;
+  bottom: 0;
+  margin: 15px;
+}
+
+#btn-submitJob {
+  margin-left: 5em;
+}
+
+/*# sourceMappingURL=main.css.map */
