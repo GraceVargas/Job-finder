@@ -1,0 +1,24 @@
+{
+  "name": "job-finder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "gh-pages -d build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GraceVargas/Job-finder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https:GraceVargas.github.io/job-finder",
+  "bugs": {
+    "url": "https://github.com/GraceVargas/Job-finder/issues"
+  },
+  "homepage": "https://github.com/GraceVargas/Job-finder#readme",
+  "dependencies": {
+    "gh-pages": "^4.0.0"
+  }
+}

@@ -74,11 +74,7 @@ var deleteJob = function (id, job) { return __awaiter(_this, void 0, void 0, fun
         switch (_a.label) {
             case 0:
                 option = {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(job)
+                    method: 'DELETE'
                 };
                 return [4 /*yield*/, fetch("https://62abf9c0bd0e5d29af1868ca.mockapi.io/jobs/".concat(id), option)];
             case 1:

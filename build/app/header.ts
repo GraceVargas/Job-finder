@@ -17,12 +17,12 @@ const itemsNavbar = [{
     link: 'index'
 },
 {
-    name: 'Home',
-    link: 'index'
-},
-{
     name: 'Create Job',
     link: 'submitjob'
+},
+{
+    name: 'JOB FINDER 🔍 ',
+    link: 'index'
 }];
 
 for (let item of itemsNavbar) {
@@ -33,9 +33,6 @@ for (let item of itemsNavbar) {
     navbarBtn.appendChild(document.createTextNode(item.name));
     navbarBtn.setAttribute('href', `${item.link}.html`);
 }
-
-
-
 
 
 

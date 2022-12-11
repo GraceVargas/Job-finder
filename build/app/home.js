@@ -1,3 +1,6 @@
+/*
+*  Function to create cards
+*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -76,10 +79,14 @@ var createCards = function (jobs) {
         btnDetails.addEventListener('click', function () {
             showSpinner();
             containerCards.innerHTML = "";
-            var cardC = document.createElement('div');
-            cardC.classList.add('p-3', 'cardContent');
-            containerCards.appendChild(cardC);
-            createCardContent(job, cardC);
+            setTimeout(function () {
+                var cardC = document.createElement('div');
+                cardC.classList.add('p-3', 'card-details');
+                cardC.setAttribute('id', 'cardDetails-Delete');
+                containerCards.appendChild(cardC);
+                createCardContent(job, cardC);
+                hideSpinner();
+            }, 1000);
         });
     };
     for (var _i = 0, jobs_1 = jobs; _i < jobs_1.length; _i++) {
@@ -87,6 +94,9 @@ var createCards = function (jobs) {
         _loop_1(job);
     }
 };
+/*
+*  Function to create filters
+*/
 var filterForm = document.getElementById('filter-form');
 var setFilters = function (filterName, name, filters) {
     var select = document.createElement('select');
@@ -112,6 +122,7 @@ var setFilters = function (filterName, name, filters) {
     select.appendChild(optionTitle);
     createOption(select, filters, 'name', 'id');
 };
+/* Filter Events*/
 var filterCards = function (locationSearched, senioritySearched, categorySearched) { return __awaiter(_this, void 0, void 0, function () {
     var jobs;
     return __generator(this, function (_a) {
@@ -164,12 +175,14 @@ var startFilter = function (event) { return __awaiter(_this, void 0, void 0, fun
 }); };
 filterForm.addEventListener('submit', startFilter);
 var btnClear = document.getElementById('btn-cancel');
+var filterCategories = document.getElementById("filterCategories");
 btnClear.addEventListener('click', function () {
     var url = new URL(location);
     url.searchParams["delete"]('Categories');
     url.searchParams["delete"]('Locations');
     url.searchParams["delete"]('Seniorities');
     history.pushState(null, document.title, url);
+    location.reload();
 });
 var loadOptionsForFilter = function () { return __awaiter(_this, void 0, void 0, function () {
     var categories, locations, seniorities;
@@ -205,17 +218,20 @@ var createCardContent = function (job, cardDetails) {
     description.appendChild(document.createTextNode(job.description));
     cardDetails.appendChild(description);
     description.classList.add('card-job-description');
+    var tagsContainer = document.createElement('div');
+    cardDetails.appendChild(tagsContainer);
+    tagsContainer.classList.add('tags-container');
     var location = document.createElement('span');
     location.appendChild(document.createTextNode(job.location));
-    cardDetails.appendChild(location);
+    tagsContainer.appendChild(location);
     location.classList.add('card-job-span');
     var category = document.createElement('span');
     category.appendChild(document.createTextNode(job.category));
-    cardDetails.appendChild(category);
+    tagsContainer.appendChild(category);
     category.classList.add('card-job-span');
     var seniority = document.createElement('span');
     seniority.appendChild(document.createTextNode(job.seniority));
-    cardDetails.appendChild(seniority);
+    tagsContainer.appendChild(seniority);
     seniority.classList.add('card-job-span');
     var boxBtn = document.createElement('div');
     boxBtn.classList.add('mt-5');
@@ -230,6 +246,10 @@ var createCardContent = function (job, cardDetails) {
     btnDeleteJob.setAttribute('id', "deleteDB-".concat(job.name));
     boxBtn.appendChild(btnDeleteJob);
     cardDetails.appendChild(boxBtn);
+    btnDeleteJob.addEventListener('click', function () {
+        cardDetails.style.display = "none";
+        createCardDelete(containerCards, job);
+    });
     btnEditJob.addEventListener('click', function () {
         divFormEdit.style.display = "block";
         var jobTitleItem = document.getElementById('jobTitle');
@@ -290,7 +310,7 @@ var loadCards = function () { return __awaiter(_this, void 0, void 0, function (
                 setTimeout(function () {
                     createCards(jobs);
                     hideSpinner();
-                }, 2000);
+                }, 1000);
                 return [2 /*return*/];
         }
     });

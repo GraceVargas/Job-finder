@@ -13,12 +13,12 @@ var itemsNavbar = [{
         link: 'index'
     },
     {
-        name: 'Home',
-        link: 'index'
-    },
-    {
         name: 'Create Job',
         link: 'submitjob'
+    },
+    {
+        name: 'JOB FINDER 🔍 ',
+        link: 'index'
     }];
 for (var _i = 0, itemsNavbar_1 = itemsNavbar; _i < itemsNavbar_1.length; _i++) {
     var item = itemsNavbar_1[_i];
