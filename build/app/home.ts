@@ -164,6 +164,7 @@ const startFilter = async(event) =>{
 filterForm.addEventListener('submit', startFilter);
 
 const btnClear = document.getElementById('btn-cancel') as HTMLButtonElement;
+const filterCategories = document.getElementById("filterCategories") as HTMLSelectElement;
 
 btnClear.addEventListener('click', () => {
     let url = new URL(location);
@@ -171,6 +172,7 @@ btnClear.addEventListener('click', () => {
     url.searchParams.delete('Locations');
     url.searchParams.delete('Seniorities');
     history.pushState(null, document.title, url);    
+    location.reload();
 })
 
 const loadOptionsForFilter = async () => {
@@ -205,19 +207,23 @@ const createCardContent = (job, cardDetails)=>{
     cardDetails.appendChild(description);
     description.classList.add('card-job-description');
 
+    const tagsContainer = document.createElement('div');
+    cardDetails.appendChild(tagsContainer);
+    tagsContainer.classList.add('tags-container');
+
     const location = document.createElement('span');
     location.appendChild(document.createTextNode(job.location));
-    cardDetails.appendChild(location);
+    tagsContainer.appendChild(location);
     location.classList.add('card-job-span');
 
     const category = document.createElement('span');
     category.appendChild(document.createTextNode(job.category));
-    cardDetails.appendChild(category);
+    tagsContainer.appendChild(category);
     category.classList.add('card-job-span');
 
     const seniority = document.createElement('span');
     seniority.appendChild(document.createTextNode(job.seniority));
-    cardDetails.appendChild(seniority);
+    tagsContainer.appendChild(seniority);
     seniority.classList.add('card-job-span');
 
     const boxBtn = document.createElement('div');
